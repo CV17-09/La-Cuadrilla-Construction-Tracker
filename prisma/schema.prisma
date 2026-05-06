@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  users User[]
+}
+
+model ProjectStatus {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  projects Project[]
+}
+
+model RequestStatus {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  requests MaterialRequest[]
+}
+
+model RequestPriority {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  requests MaterialRequest[]
+}
+
+model AlertType {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  alerts Alert[]
+}
+
+model TransactionType {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  transactions InventoryTransaction[]
+}
+
+model Unit {
+  id    Int    @id @default(autoincrement())
+  name  String
+
+  materials Material[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  fullName  String
+  roleId    Int
+  phone     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  role        Role              @relation(fields: [roleId], references: [id])
+  projects    Project[]
+  transactions InventoryTransaction[]
+  requests    MaterialRequest[]
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  startDate DateTime
+  endDate   DateTime?
+  statusId  Int
+  managerId String
+
+  status   ProjectStatus @relation(fields: [statusId], references: [id])
+  manager  User          @relation(fields: [managerId], references: [id])
+
+  inventoryItems InventoryItem[]
+  transactions   InventoryTransaction[]
+  requests       MaterialRequest[]
+  alerts         Alert[]
+}
+
+model Supplier {
+  id          String  @id @default(cuid())
+  name        String
+  contactName String?
+  phone       String?
+  email       String?
+
+  materials Material[]
+}
+
+model MaterialCategory {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+
+  materials Material[]
+}
+
+model Material {
+  id           String   @id @default(cuid())
+  name         String
+  categoryId   String
+  supplierId   String
+  unitId       Int
+  costPerUnit  Float
+  minThreshold Int
+  qrCode       String   @unique
+  createdAt    DateTime @default(now())
+
+  category MaterialCategory @relation(fields: [categoryId], references: [id])
+  supplier Supplier         @relation(fields: [supplierId], references: [id])
+  unit     Unit             @relation(fields: [unitId], references: [id])
+
+  inventoryItems InventoryItem[]
+  transactions   InventoryTransaction[]
+  requestItems   MaterialRequestItem[]
+  alerts         Alert[]
+  fileUploads    FileUpload[]
+}
+
+model InventoryItem {
+  id          String   @id @default(cuid())
+  materialId  String
+  projectId   String
+  quantity    Int
+  lastUpdated DateTime @updatedAt
+
+  material Material @relation(fields: [materialId], references: [id])
+  project  Project  @relation(fields: [projectId], references: [id])
+
+  @@unique([materialId, projectId])
+}
+
+model InventoryTransaction {
+  id                String   @id @default(cuid())
+  materialId        String
+  projectId         String
+  userId            String
+  transactionTypeId Int
+  quantity          Int
+  note              String?
+  createdAt         DateTime @default(now())
+
+  material        Material        @relation(fields: [materialId], references: [id])
+  project         Project         @relation(fields: [projectId], references: [id])
+  user            User            @relation(fields: [userId], references: [id])
+  transactionType TransactionType @relation(fields: [transactionTypeId], references: [id])
+}
+
+model MaterialRequest {
+  id         String   @id @default(cuid())
+  userId     String
+  projectId  String
+  statusId   Int
+  priorityId Int
+  createdAt  DateTime @default(now())
+
+  user     User            @relation(fields: [userId], references: [id])
+  project  Project         @relation(fields: [projectId], references: [id])
+  status   RequestStatus   @relation(fields: [statusId], references: [id])
+  priority RequestPriority @relation(fields: [priorityId], references: [id])
+
+  items MaterialRequestItem[]
+}
+
+model MaterialRequestItem {
+  id         String @id @default(cuid())
+  requestId  String
+  materialId String
+  quantity   Int
+
+  request  MaterialRequest @relation(fields: [requestId], references: [id])
+  material Material        @relation(fields: [materialId], references: [id])
+}
+
+model Alert {
+  id          String   @id @default(cuid())
+  materialId  String
+  projectId   String
+  alertTypeId Int
+  message     String
+  isResolved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  material  Material  @relation(fields: [materialId], references: [id])
+  project   Project   @relation(fields: [projectId], references: [id])
+  alertType AlertType @relation(fields: [alertTypeId], references: [id])
+}
+
+model FileUpload {
+  id         String   @id @default(cuid())
+  materialId String
+  url        String
+  fileType   String
+  uploadedAt DateTime @default(now())
+
+  material Material @relation(fields: [materialId], references: [id])
+}
