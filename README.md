@@ -147,4 +147,4 @@ git clone https://github.com/yourusername/La-Cuadrilla-Construction-Tracker.git
 cd La-Cuadrilla-Construction-Tracker
 npm install
 npm run dev
->>>>>>> 638e9e148acf551a09a46513c51a2c7690f3d946
+
