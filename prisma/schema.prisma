@@ -4,54 +4,53 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model Role {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   users User[]
 }
 
 model ProjectStatus {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   projects Project[]
 }
 
 model RequestStatus {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   requests MaterialRequest[]
 }
 
 model RequestPriority {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   requests MaterialRequest[]
 }
 
 model AlertType {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   alerts Alert[]
 }
 
 model TransactionType {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   transactions InventoryTransaction[]
 }
 
 model Unit {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id   Int    @id @default(autoincrement())
+  name String
 
   materials Material[]
 }
@@ -65,14 +64,14 @@ model User {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 
-  role        Role              @relation(fields: [roleId], references: [id])
-  projects    Project[]
+  role         Role                   @relation(fields: [roleId], references: [id])
+  projects     Project[]
   transactions InventoryTransaction[]
-  requests    MaterialRequest[]
+  requests     MaterialRequest[]
 }
 
 model Project {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   name      String
   location  String
   startDate DateTime
@@ -80,8 +79,8 @@ model Project {
   statusId  Int
   managerId String
 
-  status   ProjectStatus @relation(fields: [statusId], references: [id])
-  manager  User          @relation(fields: [managerId], references: [id])
+  status  ProjectStatus @relation(fields: [statusId], references: [id])
+  manager User          @relation(fields: [managerId], references: [id])
 
   inventoryItems InventoryItem[]
   transactions   InventoryTransaction[]
