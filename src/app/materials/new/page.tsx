@@ -1,4 +1,48 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 export default function AddMaterialPage() {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    categoryId: "",
+    supplierId: "",
+    unitId: "",
+    costPerUnit: "",
+    minThreshold: "",
+    qrCode: "",
+  });
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const response = await fetch("/api/materials", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      alert("Failed to save material");
+      return;
+    }
+
+    alert("Material saved successfully!");
+    router.push("/materials");
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-3xl mx-auto">
@@ -10,50 +54,79 @@ export default function AddMaterialPage() {
           Add a new construction material to the inventory system.
         </p>
 
-        <form className="bg-white rounded-3xl shadow-xl p-8 space-y-6">
-          <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Material Name
-            </label>
-            <input
-              type="text"
-              placeholder="Example: Steel Beams"
-              className="w-full border border-gray-300 rounded-2xl px-4 py-3"
-            />
-          </div>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-3xl shadow-xl p-8 space-y-6"
+        >
+          <input
+            name="name"
+            type="text"
+            placeholder="Material Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
 
-          <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Category
-            </label>
-            <input
-              type="text"
-              placeholder="Example: Structural Materials"
-              className="w-full border border-gray-300 rounded-2xl px-4 py-3"
-            />
-          </div>
+          <input
+            name="categoryId"
+            type="text"
+            placeholder="Category ID"
+            value={formData.categoryId}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
 
-          <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Quantity
-            </label>
-            <input
-              type="number"
-              placeholder="Example: 100"
-              className="w-full border border-gray-300 rounded-2xl px-4 py-3"
-            />
-          </div>
+          <input
+            name="supplierId"
+            type="text"
+            placeholder="Supplier ID"
+            value={formData.supplierId}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
 
-          <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Minimum Threshold
-            </label>
-            <input
-              type="number"
-              placeholder="Example: 25"
-              className="w-full border border-gray-300 rounded-2xl px-4 py-3"
-            />
-          </div>
+          <input
+            name="unitId"
+            type="number"
+            placeholder="Unit ID"
+            value={formData.unitId}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
+
+          <input
+            name="costPerUnit"
+            type="number"
+            placeholder="Cost Per Unit"
+            value={formData.costPerUnit}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
+
+          <input
+            name="minThreshold"
+            type="number"
+            placeholder="Minimum Threshold"
+            value={formData.minThreshold}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
+
+          <input
+            name="qrCode"
+            type="text"
+            placeholder="QR Code"
+            value={formData.qrCode}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded-2xl px-4 py-3"
+            required
+          />
 
           <button
             type="submit"
