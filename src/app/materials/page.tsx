@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function MaterialsPage() {
   const materials = [
     {
@@ -37,9 +39,11 @@ export default function MaterialsPage() {
             </p>
           </div>
 
-          <button className="mt-4 md:mt-0 bg-orange-600 hover:bg-orange-700 transition text-white px-6 py-3 rounded-2xl font-semibold shadow-lg">
-            + Add Material
-          </button>
+          <Link href="/materials/add">
+            <button className="mt-4 md:mt-0 bg-orange-600 hover:bg-orange-700 transition text-white px-6 py-3 rounded-2xl font-semibold shadow-lg cursor-pointer">
+              + Add Material
+            </button>
+          </Link>
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
