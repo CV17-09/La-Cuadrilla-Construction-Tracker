@@ -35,9 +35,11 @@ export default function AddMaterialPage() {
     });
 
     if (!response.ok) {
-      alert("Failed to save material");
+      const errorData = await response.json();
+      console.error("Save material error:", errorData);
+      alert(errorData.error || "Failed to save material");
       return;
-    }
+}
 
     alert("Material saved successfully!");
     router.push("/materials");
