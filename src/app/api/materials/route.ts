@@ -8,21 +8,23 @@ export async function POST(request: Request) {
     const material = await prisma.material.create({
       data: {
         name: body.name,
-        categoryId: body.categoryId,
-        supplierId: body.supplierId,
-        unitId: Number(body.unitId),
         costPerUnit: Number(body.costPerUnit),
         minThreshold: Number(body.minThreshold),
         qrCode: body.qrCode,
       },
     });
 
-    return NextResponse.json(material);
+    return NextResponse.json(material, { status: 201 });
   } catch (error) {
-    console.log(error);
+    console.error("Failed to create material:", error);
 
     return NextResponse.json(
-      { error: "Failed to create material" },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to create material",
+      },
       { status: 500 }
     );
   }
