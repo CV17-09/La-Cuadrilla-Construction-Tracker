@@ -1,8 +1,16 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">
-      {/* Hero Section */}
-      <section className="px-6 py-16">
+      <section className="relative px-6 py-16">
+        <Link
+          href="/login"
+          className="absolute top-6 right-6 bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg transition"
+        >
+          Login
+        </Link>
+
         <div className="max-w-7xl mx-auto">
           <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl border border-orange-100 p-10 md:p-16">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
@@ -18,20 +26,26 @@ export default function HomePage() {
                   </span>
                 </h1>
 
-                <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-8">
+                <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8">
                   Real-time material tracking system with QR scanning,
                   inventory management, alerts, and project monitoring for
                   modern construction teams.
                 </p>
 
                 <div className="flex flex-wrap gap-4">
-                  <button className="bg-orange-600 hover:bg-orange-700 transition-all duration-300 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-orange-300">
+                  <Link
+                    href="/materials"
+                    className="bg-orange-600 hover:bg-orange-700 transition-all duration-300 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-orange-300"
+                  >
                     📦 View Materials
-                  </button>
+                  </Link>
 
-                  <button className="bg-white border border-gray-300 hover:border-orange-400 hover:text-orange-600 transition-all duration-300 px-8 py-4 rounded-2xl font-semibold shadow-sm">
+                  <Link
+                    href="/qr-scanner"
+                    className="bg-white border border-gray-300 hover:border-orange-400 hover:text-orange-600 transition-all duration-300 px-8 py-4 rounded-2xl font-semibold shadow-sm text-gray-900"
+                  >
                     📱 Open QR Scanner
-                  </button>
+                  </Link>
                 </div>
               </div>
 
@@ -72,57 +86,61 @@ export default function HomePage() {
       <section className="px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2">
+            <Link
+              href="/materials"
+              className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+            >
               <div className="text-5xl mb-5">📦</div>
-
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 Materials
               </h3>
-
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Track construction materials, quantities, and inventory levels
                 across multiple job sites.
               </p>
-            </div>
+            </Link>
 
-            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2">
+            <Link
+              href="/qr-scanner"
+              className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+            >
               <div className="text-5xl mb-5">📱</div>
-
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 QR Scanner
               </h3>
-
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Scan materials instantly with QR technology for fast check-ins
                 and inventory updates.
               </p>
-            </div>
+            </Link>
 
-            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2">
+            <Link
+              href="/alerts"
+              className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+            >
               <div className="text-5xl mb-5">🚨</div>
-
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 Alerts
               </h3>
-
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Receive automatic notifications for low stock levels and urgent
                 inventory updates.
               </p>
-            </div>
+            </Link>
 
-            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2">
+            <Link
+              href="/projects"
+              className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:-translate-y-2"
+            >
               <div className="text-5xl mb-5">🏗️</div>
-
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
                 Projects
               </h3>
-
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed">
                 Manage inventory and activity across multiple construction
                 projects and locations.
               </p>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -136,27 +154,21 @@ export default function HomePage() {
                 <h2 className="text-5xl font-extrabold text-orange-400 mb-2">
                   250+
                 </h2>
-                <p className="text-gray-300 text-lg">
-                  Materials Tracked
-                </p>
+                <p className="text-gray-300 text-lg">Materials Tracked</p>
               </div>
 
               <div>
                 <h2 className="text-5xl font-extrabold text-orange-400 mb-2">
                   12
                 </h2>
-                <p className="text-gray-300 text-lg">
-                  Active Projects
-                </p>
+                <p className="text-gray-300 text-lg">Active Projects</p>
               </div>
 
               <div>
                 <h2 className="text-5xl font-extrabold text-orange-400 mb-2">
                   98%
                 </h2>
-                <p className="text-gray-300 text-lg">
-                  Inventory Accuracy
-                </p>
+                <p className="text-gray-300 text-lg">Inventory Accuracy</p>
               </div>
             </div>
           </div>
