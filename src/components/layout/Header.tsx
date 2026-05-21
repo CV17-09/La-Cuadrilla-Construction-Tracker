@@ -20,12 +20,15 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="relative bg-gray-100 hover:bg-gray-200 transition p-3 rounded-2xl">
+          <Link
+            href="/profile/notifications"
+            className="relative bg-gray-100 hover:bg-gray-200 transition p-3 rounded-2xl"
+          >
             🔔
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
               3
             </span>
-          </button>
+          </Link>
 
           <div className="relative">
             <button
@@ -50,21 +53,24 @@ export default function Header() {
                 </div>
 
                 <Link
-                  href="/profile"
+                  href="/profile/account"
+                  onClick={() => setOpen(false)}
                   className="block px-4 py-3 text-gray-800 hover:bg-gray-100"
                 >
                   👤 View Account
                 </Link>
 
                 <Link
-                  href="/settings"
+                  href="/profile/settings"
+                  onClick={() => setOpen(false)}
                   className="block px-4 py-3 text-gray-800 hover:bg-gray-100"
                 >
                   ⚙️ Settings
                 </Link>
 
                 <Link
-                  href="/notifications"
+                  href="/profile/notifications"
+                  onClick={() => setOpen(false)}
                   className="block px-4 py-3 text-gray-800 hover:bg-gray-100"
                 >
                   🔔 Notifications
@@ -72,6 +78,7 @@ export default function Header() {
 
                 <Link
                   href="/login"
+                  onClick={() => setOpen(false)}
                   className="block px-4 py-3 text-red-600 hover:bg-red-50"
                 >
                   Logout
