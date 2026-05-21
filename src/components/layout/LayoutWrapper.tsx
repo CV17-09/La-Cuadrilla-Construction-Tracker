@@ -11,7 +11,10 @@ export default function LayoutWrapper({
 }) {
   const pathname = usePathname();
 
-  const hideLayout = pathname === "/login";
+  // Pages that should NOT show dashboard layout
+  const hideLayoutRoutes = ["/login", "/register"];
+
+  const hideLayout = hideLayoutRoutes.includes(pathname);
 
   if (hideLayout) {
     return <>{children}</>;
@@ -24,7 +27,9 @@ export default function LayoutWrapper({
       <div className="flex-1 flex flex-col">
         <Header />
 
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          {children}
+        </main>
       </div>
     </div>
   );
