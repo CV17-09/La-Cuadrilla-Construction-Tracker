@@ -4,19 +4,65 @@ export default function InventoryPage() {
       id: 1,
       material: "Steel Beams",
       quantity: 124,
+      unit: "Pieces",
       location: "Downtown Site",
+      supplier: "ABC Steel",
     },
     {
       id: 2,
       material: "Concrete Bags",
       quantity: 52,
+      unit: "Bags",
       location: "Warehouse A",
+      supplier: "BuildPro",
     },
     {
       id: 3,
       material: "Safety Helmets",
       quantity: 18,
+      unit: "Units",
       location: "North Project",
+      supplier: "SafeGear",
+    },
+    {
+      id: 4,
+      material: "Wood Planks",
+      quantity: 86,
+      unit: "Pieces",
+      location: "East Site",
+      supplier: "Lumber Supply",
+    },
+    {
+      id: 5,
+      material: "Paint Buckets",
+      quantity: 33,
+      unit: "Buckets",
+      location: "Warehouse B",
+      supplier: "ColorMax",
+    },
+    {
+      id: 6,
+      material: "Electrical Wire",
+      quantity: 15,
+      unit: "Rolls",
+      location: "South Project",
+      supplier: "WireTech",
+    },
+    {
+      id: 7,
+      material: "PVC Pipes",
+      quantity: 67,
+      unit: "Pieces",
+      location: "Downtown Site",
+      supplier: "PipeWorks",
+    },
+    {
+      id: 8,
+      material: "Nails Boxes",
+      quantity: 110,
+      unit: "Boxes",
+      location: "Warehouse A",
+      supplier: "FastBuild",
     },
   ];
 
@@ -40,6 +86,7 @@ export default function InventoryPage() {
 
             <thead className="bg-orange-50">
               <tr>
+
                 <th className="text-left p-5 text-gray-900 font-bold">
                   Material
                 </th>
@@ -49,12 +96,21 @@ export default function InventoryPage() {
                 </th>
 
                 <th className="text-left p-5 text-gray-900 font-bold">
+                  Unit
+                </th>
+
+                <th className="text-left p-5 text-gray-900 font-bold">
                   Location
+                </th>
+
+                <th className="text-left p-5 text-gray-900 font-bold">
+                  Supplier
                 </th>
 
                 <th className="text-left p-5 text-gray-900 font-bold">
                   Status
                 </th>
+
               </tr>
             </thead>
 
@@ -68,24 +124,31 @@ export default function InventoryPage() {
                     {item.material}
                   </td>
 
-                  <td className="p-5 text-gray-800 font-medium">
+                  <td className="p-5 text-gray-800">
                     {item.quantity}
+                  </td>
+
+                  <td className="p-5 text-gray-800">
+                    {item.unit}
                   </td>
 
                   <td className="p-5 text-gray-800">
                     {item.location}
                   </td>
 
+                  <td className="p-5 text-gray-800">
+                    {item.supplier}
+                  </td>
+
                   <td className="p-5">
                     <span
-                      className={`px-4 py-2 rounded-full text-sm font-semibold
-                        ${
-                          item.quantity > 100
-                            ? "bg-green-100 text-green-700"
-                            : item.quantity > 25
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
+                      className={`px-4 py-2 rounded-full text-sm font-semibold ${
+                        item.quantity > 100
+                          ? "bg-green-100 text-green-700"
+                          : item.quantity > 25
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
                     >
                       {item.quantity > 100
                         ? "In Stock"
@@ -94,12 +157,15 @@ export default function InventoryPage() {
                         : "Critical"}
                     </span>
                   </td>
+
                 </tr>
               ))}
             </tbody>
 
           </table>
+
         </div>
+
       </div>
     </main>
   );
