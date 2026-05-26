@@ -1,4 +1,11 @@
+"use client";
+
+import { Html5QrcodeScanner } from "html5-qrcode";
+import { useState } from "react";
+
 export default function QRScannerPage() {
+  const [scannedCode, setScannedCode] = useState("");
+
   const recentScans = [
     {
       id: 1,
@@ -26,123 +33,87 @@ export default function QRScannerPage() {
     },
   ];
 
+  function startScanner() {
+    const scanner = new Html5QrcodeScanner(
+      "qr-reader",
+      {
+        fps: 10,
+        qrbox: {
+          width: 250,
+          height: 250,
+        },
+      },
+      false
+    );
+
+    scanner.render(
+      (decodedText) => {
+        setScannedCode(decodedText);
+
+        scanner.clear();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
+
         <h1 className="text-4xl font-bold text-gray-900 mb-2">
           📱 QR Scanner
         </h1>
 
         <p className="text-gray-600 mb-8">
-          Scan material QR codes to quickly view or update inventory.
+          Scan material QR codes to quickly view inventory.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
           <div className="bg-white rounded-3xl shadow-xl p-8 text-center">
-            <div className="border-4 border-dashed border-orange-300 rounded-3xl p-16 bg-orange-50">
-              <div className="text-7xl mb-6">📷</div>
 
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                Camera Scanner Area
-              </h2>
+            <div className="border-4 border-dashed border-orange-300 rounded-3xl p-8 bg-orange-50">
 
-              <p className="text-gray-600 mb-6">
-                QR scanning functionality will be connected here using html5-qrcode.
-              </p>
+              {!scannedCode && (
+                <>
+                  <div className="text-7xl mb-6">
+                    📷
+                  </div>
 
-              <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg">
-                Start Scanner
-              </button>
-            </div>
-          </div>
+                  <h2 className="text-2xl font-bold mb-4">
+                    Camera Scanner
+                  </h2>
 
-          <div className="space-y-6">
-            <div className="bg-white rounded-3xl shadow-xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Scanner Actions
-              </h2>
+                  <button
+                    onClick={startScanner}
+                    className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-2xl font-bold"
+                  >
+                    Start Scanner
+                  </button>
+                </>
+              )}
 
-              <div className="space-y-3">
-                <button className="w-full bg-orange-100 text-orange-700 py-3 rounded-2xl font-semibold">
-                  View Material Details
-                </button>
-
-                <button className="w-full bg-green-100 text-green-700 py-3 rounded-2xl font-semibold">
-                  Stock In
-                </button>
-
-                <button className="w-full bg-red-100 text-red-700 py-3 rounded-2xl font-semibold">
-                  Stock Out
-                </button>
-
-                <button className="w-full bg-blue-100 text-blue-700 py-3 rounded-2xl font-semibold">
-                  Report Issue
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-3xl shadow-xl p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Last Scanned Material
-              </h2>
-
-              <div className="space-y-2 text-gray-700">
-                <p>
-                  <strong>Material:</strong> Steel Beams
-                </p>
-                <p>
-                  <strong>QR Code:</strong> QR-STEEL-001
-                </p>
-                <p>
-                  <strong>Current Quantity:</strong> 124 pieces
-                </p>
-                <p>
-                  <strong>Project:</strong> Downtown Site
-                </p>
-                <p>
-                  <strong>Status:</strong>{" "}
-                  <span className="text-green-600 font-bold">
-                    In Stock
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-3xl shadow-xl p-8 mt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Recent QR Scans
-          </h2>
-
-          <div className="space-y-4">
-            {recentScans.map((scan) => (
               <div
-                key={scan.id}
-                className="border border-gray-200 rounded-2xl p-4 flex justify-between items-center"
-              >
-                <div>
-                  <h3 className="font-bold text-gray-900">
-                    {scan.material}
+                id="qr-reader"
+                className="mt-6"
+              />
+
+              {scannedCode && (
+                <div className="mt-6 bg-green-100 p-4 rounded-xl">
+                  <h3 className="font-bold">
+                    Scanned QR:
                   </h3>
 
-                  <p className="text-gray-600">
-                    {scan.code} • {scan.project}
-                  </p>
+                  <p>{scannedCode}</p>
                 </div>
+              )}
 
-                <div className="text-right">
-                  <p className="text-gray-900 font-semibold">
-                    {scan.action}
-                  </p>
+            </div>
 
-                  <p className="text-gray-500 text-sm">
-                    {scan.time}
-                  </p>
-                </div>
-              </div>
-            ))}
           </div>
+
         </div>
       </div>
     </main>
