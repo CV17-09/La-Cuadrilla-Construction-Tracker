@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
+
 export default function RequestsPage() {
-  const requests = [
+  const [requests, setRequests] = useState([
     {
       id: 1,
       material: "Concrete Bags",
@@ -10,6 +14,7 @@ export default function RequestsPage() {
       status: "Pending",
       priority: "High",
       type: "Emergency",
+      decisionComment: "",
     },
     {
       id: 2,
@@ -21,6 +26,7 @@ export default function RequestsPage() {
       status: "Approved",
       priority: "Medium",
       type: "Stock Out",
+      decisionComment: "Approved for safety compliance.",
     },
     {
       id: 3,
@@ -32,6 +38,7 @@ export default function RequestsPage() {
       status: "Completed",
       priority: "Low",
       type: "Stock In",
+      decisionComment: "",
     },
     {
       id: 4,
@@ -43,215 +50,156 @@ export default function RequestsPage() {
       status: "Pending",
       priority: "High",
       type: "Stock Out",
+      decisionComment: "",
     },
-  ];
+  ]);
+
+  const [comments, setComments] = useState<{ [key:number]: string }>({});
+
+  const handleCommentChange = (
+    id:number,
+    value:string
+  ) => {
+    setComments((prev)=>({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const updateRequestStatus = (
+    id:number,
+    newStatus:string
+  ) => {
+
+    setRequests((prevRequests)=>
+      prevRequests.map((request)=>
+        request.id === id
+          ? {
+              ...request,
+              status: newStatus,
+              decisionComment:
+                comments[id] || "No comment provided",
+            }
+          : request
+      )
+    );
+  };
 
   return (
     <main className="min-h-screen bg-gray-100 p-8">
 
       <div className="max-w-7xl mx-auto">
 
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            📝 Material Requests
-          </h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">
+          📝 Material Requests
+        </h1>
 
-          <p className="text-gray-700 text-lg">
-            Track requests submitted by workers and supervisors.
-          </p>
-        </div>
+        <div className="space-y-6">
 
+          {requests.map((request)=>(
+            <div
+              key={request.id}
+              className="bg-white rounded-3xl p-6 shadow-xl"
+            >
 
-        {/* Summary Cards */}
+              <div className="flex justify-between">
 
-        <div className="grid grid-cols-4 gap-6 mb-8">
-
-          <div className="bg-white rounded-3xl shadow p-6">
-            <p className="text-gray-500">
-              Total Requests
-            </p>
-
-            <h2 className="text-3xl font-bold text-blue-600">
-              {requests.length}
-            </h2>
-          </div>
-
-          <div className="bg-white rounded-3xl shadow p-6">
-            <p className="text-gray-500">
-              Pending
-            </p>
-
-            <h2 className="text-3xl font-bold text-yellow-600">
-              {
-                requests.filter(
-                  r => r.status === "Pending"
-                ).length
-              }
-            </h2>
-          </div>
-
-          <div className="bg-white rounded-3xl shadow p-6">
-            <p className="text-gray-500">
-              Approved
-            </p>
-
-            <h2 className="text-3xl font-bold text-green-600">
-              {
-                requests.filter(
-                  r => r.status === "Approved"
-                ).length
-              }
-            </h2>
-          </div>
-
-          <div className="bg-white rounded-3xl shadow p-6">
-            <p className="text-gray-500">
-              High Priority
-            </p>
-
-            <h2 className="text-3xl font-bold text-red-600">
-              {
-                requests.filter(
-                  r => r.priority === "High"
-                ).length
-              }
-            </h2>
-          </div>
-
-        </div>
-
-
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-
-          <table className="w-full">
-
-            <thead className="bg-orange-50">
-              <tr>
-                <th className="p-5 text-left text-gray-900">
-                  Material
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Quantity
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Project
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Requester
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Date
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Type
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Priority
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Status
-                </th>
-
-                <th className="p-5 text-left text-gray-900">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-
-
-            <tbody>
-
-              {requests.map((request) => (
-
-                <tr
-                  key={request.id}
-                  className="border-t hover:bg-gray-50"
-                >
-
-                  <td className="p-5 text-gray-900 font-semibold">
+                <div>
+                  <h2 className="font-bold text-2xl">
                     {request.material}
-                  </td>
+                  </h2>
 
-                  <td className="p-5 text-gray-800">
-                    {request.quantity}
-                  </td>
+                  <p className="text-gray-500">
+                    Requested by {request.requester}
+                  </p>
+                </div>
 
-                  <td className="p-5 text-gray-800">
-                    {request.project}
-                  </td>
+                <span
+                  className={`px-4 py-2 rounded-full
+                  ${
+                    request.status==="Pending"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : request.status==="Approved"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  {request.status}
+                </span>
 
-                  <td className="p-5 text-gray-800">
-                    {request.requester}
-                  </td>
+              </div>
 
-                  <td className="p-5 text-gray-800">
-                    {request.date}
-                  </td>
+              <div className="mt-4 text-gray-700">
+                Quantity: {request.quantity}
+              </div>
 
-                  <td className="p-5 text-gray-800">
-                    {request.type}
-                  </td>
+              <div className="mt-2 text-gray-700">
+                Project: {request.project}
+              </div>
 
-                  <td className="p-5">
+              {request.status==="Pending" && (
+                <div className="mt-6">
 
-                    <span
-                      className={`px-3 py-2 rounded-full text-sm
-                      ${
-                        request.priority === "High"
-                        ? "bg-red-100 text-red-700"
-                        : request.priority === "Medium"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-blue-100 text-blue-700"
-                      }`}
+                  <textarea
+                    placeholder="Why are you approving/rejecting?"
+                    value={comments[request.id] || ""}
+                    onChange={(e)=>
+                      handleCommentChange(
+                        request.id,
+                        e.target.value
+                      )
+                    }
+                    className="w-full border rounded-xl p-3"
+                  />
+
+                  <div className="mt-4 flex gap-3">
+
+                    <button
+                      onClick={()=>
+                        updateRequestStatus(
+                          request.id,
+                          "Approved"
+                        )
+                      }
+                      className="bg-green-500 text-white px-4 py-2 rounded-xl"
                     >
-                      {request.priority}
-                    </span>
-
-                  </td>
-
-                  <td className="p-5">
-
-                    <span
-                      className={`px-3 py-2 rounded-full text-sm
-                      ${
-                        request.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : request.status === "Approved"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-gray-200 text-gray-700"
-                      }`}
-                    >
-                      {request.status}
-                    </span>
-
-                  </td>
-
-                  <td className="p-5 flex gap-2">
-
-                    <button className="bg-green-500 text-white px-3 py-2 rounded-xl">
                       Approve
                     </button>
 
-                    <button className="bg-red-500 text-white px-3 py-2 rounded-xl">
+                    <button
+                      onClick={()=>
+                        updateRequestStatus(
+                          request.id,
+                          "Rejected"
+                        )
+                      }
+                      className="bg-red-500 text-white px-4 py-2 rounded-xl"
+                    >
                       Reject
                     </button>
 
-                  </td>
+                  </div>
 
-                </tr>
+                </div>
+              )}
 
-              ))}
+              {request.decisionComment && (
+                <div className="mt-6 bg-gray-100 rounded-xl p-4">
 
-            </tbody>
+                  <p className="font-bold">
+                    Manager Comment:
+                  </p>
 
-          </table>
+                  <p>
+                    {request.decisionComment}
+                  </p>
+
+                </div>
+              )}
+
+            </div>
+
+          ))}
 
         </div>
 

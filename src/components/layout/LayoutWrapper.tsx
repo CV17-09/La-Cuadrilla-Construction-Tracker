@@ -10,6 +10,12 @@ export default function LayoutWrapper({
 }) {
   const pathname = usePathname();
 
+  const hideLayout = pathname === "/login" || pathname === "/register";
+
+  if (hideLayout) {
+    return <>{children}</>;
+  }
+
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: "📊" },
     { name: "Materials", href: "/materials", icon: "📦" },

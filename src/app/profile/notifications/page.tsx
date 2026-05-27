@@ -35,23 +35,22 @@ export default function NotificationsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white p-8 transition">
-      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+    <main className="min-h-screen bg-gray-100 text-gray-900 p-8 transition">
+      <h1 className="text-4xl font-bold text-gray-900 mb-2">
         🔔 Notifications
       </h1>
 
-      <p className="text-gray-700 dark:text-gray-300 mb-8">
+      <p className="text-gray-700 mb-8">
         Manage your notifications and preferences.
       </p>
 
-      {/* Notification Settings */}
-      <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white rounded-3xl shadow-lg p-6 mb-8 max-w-3xl border border-gray-200 dark:border-gray-700">
+      <div className="bg-white text-gray-900 rounded-3xl shadow-lg p-6 mb-8 max-w-3xl border border-gray-200">
         <h2 className="text-xl font-bold mb-4">
           Notification Settings
         </h2>
 
         <div className="space-y-4">
-          <label className="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-4 rounded-2xl">
+          <label className="flex justify-between items-center bg-gray-100 p-4 rounded-2xl">
             <span>Material Requests</span>
             <input
               type="checkbox"
@@ -61,7 +60,7 @@ export default function NotificationsPage() {
             />
           </label>
 
-          <label className="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-4 rounded-2xl">
+          <label className="flex justify-between items-center bg-gray-100 p-4 rounded-2xl">
             <span>QR Scan Updates</span>
             <input
               type="checkbox"
@@ -71,7 +70,7 @@ export default function NotificationsPage() {
             />
           </label>
 
-          <label className="flex justify-between items-center bg-gray-100 dark:bg-gray-700 p-4 rounded-2xl">
+          <label className="flex justify-between items-center bg-gray-100 p-4 rounded-2xl">
             <span>Reports</span>
             <input
               type="checkbox"
@@ -83,15 +82,14 @@ export default function NotificationsPage() {
         </div>
       </div>
 
-      {/* Notifications List */}
-      <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white rounded-3xl shadow-lg p-6 max-w-3xl border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white text-gray-900 rounded-3xl shadow-lg p-6 max-w-3xl border border-gray-200">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">
           Recent Notifications
         </h2>
 
         <div className="space-y-4">
           {notifications.length === 0 ? (
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600">
               No notifications left.
             </p>
           ) : (
@@ -100,8 +98,8 @@ export default function NotificationsPage() {
                 key={notification.id}
                 className={`border rounded-2xl p-4 flex justify-between items-center shadow-sm ${
                   notification.read
-                    ? "bg-gray-200 border-gray-300 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-                    : "bg-orange-100 border-orange-300 text-gray-900 dark:bg-orange-900 dark:border-orange-700 dark:text-orange-100"
+                    ? "bg-gray-200 border-gray-300 text-gray-800"
+                    : "bg-orange-100 border-orange-300 text-gray-900"
                 }`}
               >
                 <div>
@@ -109,7 +107,7 @@ export default function NotificationsPage() {
                     {notification.message}
                   </p>
 
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                  <p className="text-sm text-gray-600">
                     {notification.read ? "Read" : "Unread"}
                   </p>
                 </div>
