@@ -1,6 +1,6 @@
 # 🚧 La-Cuadrilla-Construction-Tracker
 
-**📅 04/26/2026 – 05/26/2026**
+**pending**
 
 A full-stack construction material tracking system built to help crews, supervisors, and project managers manage inventory, monitor material movement, and reduce delays on job sites.
 
